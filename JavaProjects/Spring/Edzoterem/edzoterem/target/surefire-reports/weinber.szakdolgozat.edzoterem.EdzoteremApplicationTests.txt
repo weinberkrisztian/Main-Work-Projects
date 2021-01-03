@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: weinber.szakdolgozat.edzoterem.EdzoteremApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.787 s - in weinber.szakdolgozat.edzoterem.EdzoteremApplicationTests

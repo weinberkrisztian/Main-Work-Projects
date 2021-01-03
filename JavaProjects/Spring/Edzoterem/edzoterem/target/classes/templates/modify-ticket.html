@@ -1,0 +1,103 @@
+<html >
+
+<head>
+
+
+<title>Ticket Modification</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/welcome.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/form-layout.css}" >
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content form-layout" >
+		<div class="main-content-welcome">
+			<div th:text="#{ticket-modify-headline}"class="main-content-welcome-message">
+			</div>
+			<div class="main-content-message">
+		<form th:action="@{'/weinbergym/ticketModificationDetailsProcessing/' +${originalTicketId}}" th:object="${ticket}" method="POST">
+
+		<!-- Place for messages: error, alert etc ... -->
+		<div class="form-group">
+			<div class="col-xs-15">
+				<div>
+				<input class="action-button" type="submit" th:value="#{ticket-modify-button}">
+					<!-- Check for existing email error -->
+					<div th:if="${nameError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+						<span th:text="${nameError}"></span>
+					</div>
+																											
+				</div>
+			</div>
+		</div>			  
+	<!-- Type -->
+		<div th:if="${originalTicketId} != 1">
+		 	<label th:text="#{ticket-modify-type}" for="type"></label><br>
+			<input type="text" th:field="*{type}" th:value="*{type}" class="form-control" />
+		</div>
+		<div  th:if="${#fields.hasErrors('type')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('type')}" th:text="#{ticket-modify-type} + ${err}" />
+			</ul>						
+		</div>		
+	<!-- CheckinLimit -->
+		<div th:if="${originalTicketId} != 1">
+		 	<label th:text="#{ticket-modify-checkingLimit}" for="checkingLimit"></label><br>
+			<input type="text" th:field="*{checkingLimit}" th:value="*{checkingLimit}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('checkingLimit')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('checkingLimit')}" th:text="#{ticket-modify-checkingLimit} + ${err}" />
+			</ul>						
+		</div>			
+	<!-- Normal Price -->
+		<div>
+		 	<label th:text="#{ticket-modify-normalPrice}" for="normalPrice"></label><br>
+			<input type="text" th:field="*{normalPrice}" th:value="*{normalPrice}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('normalPrice')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('normalPrice')}" th:text="#{ticket-modify-normalPrice} + ${err}" />
+			</ul>						
+		</div>		
+	<!-- Student Price -->
+		<div>
+		 	<label th:text="#{ticket-modify-studentPrice}" for="studentPrice"></label><br>
+			<input type="text" th:field="*{studentPrice}" th:value="*{studentPrice}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('studentPrice')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('studentPrice')}" th:text="#{ticket-modify-studentPrice} + ${err}" />
+			</ul>						
+		</div>	
+		
+		  
+		</form> 
+	
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

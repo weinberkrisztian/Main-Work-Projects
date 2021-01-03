@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: edzoterem
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: wkris
+Implementation-Vendor-Id: weinber.szakdolgozat
+Build-Jdk: 1.8.0_162
+Implementation-URL: https://spring.io/projects/spring-boot/edzoterem
+Created-By: Maven Integration for Eclipse
+

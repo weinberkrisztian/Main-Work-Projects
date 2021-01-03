@@ -1,0 +1,71 @@
+.main-content-center{
+	display: flex;
+	align-items: center;
+
+}
+
+.main-content-welcome{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 40%;
+	height: 100%;
+}
+
+.main-content-welcome-message{
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.main-content-message{
+	display: inline-block;
+	width: 100%;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.main-content-message > img{
+	width: inherit;
+	
+	}
+.trainer-contact-input{
+	background-color: black;
+	color:white;
+}
+
+.trainer-contact-input-div{
+	width:100%; 
+	display:flex; 
+	justify-content: center;
+}
+
+.display-none{
+	display: none;
+}
+
+.alert-danger {
+    color: #a94442;
+/*     background-color: #f2dede; */
+    border-color: #ebccd1;
+}
+
+.col-xs-offset-1 {
+    margin-left: 8.33333333%;
+}
+
+.col-xs-10 {
+    width: 83.33333333%;
+}
+
+.welcome-background{
+	background-image:url('/logo.jpg') !important;
+	width: 100%;
+	background-position: center;
+ 	background-repeat: no-repeat;
+ 	background-size: contain;
+}
+
+.welcome-header{
+	padding-top: 10px;
+}

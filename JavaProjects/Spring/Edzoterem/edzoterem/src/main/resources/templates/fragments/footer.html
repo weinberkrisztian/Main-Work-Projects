@@ -1,0 +1,38 @@
+<html >
+
+<head>
+
+<title>WeinberGym</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+
+
+<footer th:fragment="footer" >
+
+<div class="dropup" >
+	<a th:text="#{elerhetoseg}"></a>
+		<div class="dropup-content ">
+			<a th:text="#{cim}"></a>
+			<a th:text="#{cim-adat}"></a>
+			<a th:text="#{megkozelites}"></a>
+			<a th:text="#{megkozelites-adat-vonat}"></a>
+			<a th:text="#{megkozelites-adat-busz}"></a>
+		</div>			
+</div>
+<div>
+<a  th:text="#{kezdolap}" th:href="@{/weinbergym/welcome}">
+</a>
+</div>
+</footer>
+
+</body>
+
+</html>
