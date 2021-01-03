@@ -1,0 +1,137 @@
+<html >
+
+<head>
+
+<title>Add Trainer</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/welcome.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/form-layout.css}" >
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content form-layout" >
+		<div class="main-content-welcome">
+			<div th:text="#{trainer-add-headline}"class="main-content-welcome-message">
+			</div>
+			<div class="main-content-message">
+		<form th:action="@{/weinbergym/trainerAddingDetailsProcessing}" th:object="${trainer}" method="POST" >
+
+		<!-- Place for messages: error, alert etc ... -->
+		<div class="form-group">
+			<div class="col-xs-15">
+				<div>
+				<input class="action-button" type="submit" th:value="#{trainer-add-button}">
+					<!-- Check for existing email error -->
+					<div th:if="${emailError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+						<span th:text="${emailError}"></span>
+					</div>
+																											
+				</div>
+			</div>
+		</div>			  
+	<!-- First Name -->
+		<div>
+		 	<label th:text="#{trainer-add-firstName}" for="firstName"></label><br>
+			<input type="text" th:field="*{firstName}" 
+			th:value="*{firstName}" class="form-control"  />
+		</div>
+		<div th:if="${#fields.hasErrors('firstName')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('firstName')}" 
+				th:text="#{trainer-add-firstName} + ${err}" />
+			</ul>						
+		</div>	
+	<!-- Last Name -->
+		<div>
+		 	<label th:text="#{trainer-add-lastName}" for="lastName"></label><br>
+			<input  type="text" th:field="*{lastName}" th:value="*{lastName}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('lastName')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('lastName')}" th:text="#{trainer-add-lastName} + ${err}" />
+			</ul>						
+		</div>		
+		
+	<!-- imageUrl -->
+		<div>
+		 	<label th:text="#{trainer-add-imageUrl}" for="imageUrl"></label><br>
+			<input  type="file" th:field="*{imageUrl}" th:value="*{imageUrl}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('imageUrl')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('imageUrl')}" th:text="#{trainer-add-imageUrl} + ${err}" />
+			</ul>						
+		</div>		
+	<!-- description -->
+		<div>
+		 	<label th:text="#{trainer-add-description}" for="description"></label><br>
+			<textarea th:placeholder="#{leiras}" th:field="*{description}" th:value="*{description}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('description')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('description')}" th:text="#{trainer-add-description} + ${err}" />
+			</ul>						
+		</div>	
+		<!-- Place for messages: error, alert etc ... -->
+		<div class="form-group">
+			<div class="col-xs-15">
+				<div>
+					<!-- Check for registration error -->
+					<div th:if="${registrationErrorEmail}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+						<span th:text="${registrationErrorEmail}"></span>
+					</div>
+																											
+				</div>
+			</div>
+		</div>				
+	<!-- Email -->
+		<div>
+		 	<label th:text="#{trainer-add-email}" for="email"></label><br>
+			<input type="text" th:field="*{email}" th:value="*{email}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('email')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('email')}" th:text="#{trainer-add-email} + ${err}" />
+			</ul>						
+		</div>
+		<div>
+			<label th:text="#{trainer-add-trainingClass}" for="trainingClass"></label><br>
+			<select  class="custom-select" th:field="*{trainingClassId}">
+				<option th:unless="${trainer.trainingClass} == null" th:text="${trainer?.trainingClass?.name}" th:value="${trainer?.trainingClass?.id}"  ></option>
+				<option th:value=null th:text="#{nincs-edzes-fajta}"/>
+			  	<option th:each="tempTrainingClass : ${trainingClassList}" th:value="${tempTrainingClass.id}" th:text="${tempTrainingClass.name}" ></option>
+			</select>	
+		</div>			  
+		</form>
+		
+		
+
+	
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

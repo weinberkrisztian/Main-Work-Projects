@@ -1,0 +1,58 @@
+<html >
+
+<head>
+
+<title>Welcome</title>
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+
+
+      
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<header th:fragment="header">
+	<div>
+		<div>
+			<a th:text="#{edzok}" th:href="@{/weinbergym/trainers}">
+			</a>
+		</div>
+		<div>
+			<a th:text="#{edzesfajtak}" th:href="@{/weinbergym/trainingClass}">
+			</a>
+		</div>
+		<div>
+			<a th:text="#{arak}" th:href="@{/weinbergym/prices}" >
+			</a>
+		</div>
+		<div >
+			<a th:text="#{orarend}" th:href="@{/weinbergym/schedule}">
+			</a>
+		</div>
+		<div sec:authorize="isAnonymous()">
+			<a th:text="#{bejelentkezes}" th:href="@{/showMyLoginPage}">
+			</a>
+		</div>
+		<div class="dropdown" sec:authorize="isAuthenticated()">
+			<a sec:authentication="name">
+			</a>
+			<div class="dropdown-content">
+			<a th:text="#{kijelentkezes}" th:href="@{/logout}"></a>
+			<a th:text="#{modositas}" th:href="@{/weinbergym/userDetails}"></a>
+			<a th:text="#{jelszo-modositas}" th:href="@{/weinbergym/userPasswordModification}" onclick="if(!(confirm('Az OK gombra kattintva Emailt küldünk önnek,amit meg kell majd adnia az új jelszó létrehozásánál!'))) return false"></a> 
+			<a sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" th:text="#{felhasznalok}" th:href="@{/weinbergym/findUser}"></a> 
+			<a sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" th:text="#{edzo-hozzaadasa}" th:href="@{/weinbergym/addTrainer}"></a> 
+			<a sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" th:text="#{edzes-fajta-hozzaadasa}" th:href="@{/weinbergym/addTrainingClass}"></a> 
+			<a sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" th:text="#{berlet-fajta-hozzaadas}" th:href="@{/weinbergym/addTicket}"></a> 
+			
+<!--  th:href="@{/weinbergym/userPasswordModification}"  -->
+			</div>
+		</div>
+	</div>
+</header>
+
+</body>
+
+</html>

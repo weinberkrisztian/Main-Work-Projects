@@ -1,0 +1,68 @@
+<html >
+
+<head>
+
+<title>Prices</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/schedule.css}" >
+
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	<div class="main-content main-content-center price-background"  >
+		<div class="main-content-welcome">
+				<div class="main-content-welcome-message" th:text="#{arak}" />
+		
+
+				<table class="my-table">
+				<tr>
+				<th/>
+				<th  th:text="#{teljesaru}"/>
+				<th	 th:text="#{diak}"/>
+				<th sec:authorize="hasAnyRole('ADMIN')" th:text=#{ticket-modification-button}/>
+				<th sec:authorize="hasAnyRole('ADMIN')" th:text=#{ticket-delete-button}/>
+				</tr>
+				<tr>
+					<td  th:text="#{napijegy}"/>
+					<td  th:text="${dailyTicket.normalPrice}+' Ft'"></td>
+					<td	 th:text="${dailyTicket.studentPrice}+ ' Ft'"></td>
+					<td sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/weinbergym/ticketModificationProcess(ticketId=${dailyTicket.id})}"><div th:text="#{ticket-modification-button}"></div></a></td>
+					<td sec:authorize="hasAnyRole('ADMIN')"/>
+				</tr>
+				<tr th:each=" tempTicket : ${ticketList}">
+					<td  th:text="${tempTicket.type}"></td>
+					<td  th:text="${tempTicket.normalPrice} +' Ft'"></td>
+					<td	 th:text="${tempTicket.studentPrice}+' Ft'"></td>
+					<td sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/weinbergym/ticketModificationProcess(ticketId=${tempTicket.id})}"><div th:text="#{ticket-modification-button}"></div></a></td>
+					<td sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/weinbergym/ticketDeletion(ticketId=${tempTicket.id})}"><div th:text="#{ticket-delete-button}"></div></a></td>
+				</tr>				
+				</table>
+				<div class="price-info">
+					<div th:text="#{alkalom-info-f}" />
+					<div th:text="#{alkalom-info-s}" />
+					<div th:text="#{szauna-info}" />
+				
+				
+				
+				</div>
+		</div>
+
+		
+		</div>
+
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

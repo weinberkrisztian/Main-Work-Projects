@@ -1,0 +1,64 @@
+<html >
+
+<head>
+
+<title>Trainers Details</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/detailed-layout.css}" >
+
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+
+	
+	<div class="main-content detailed-layout">
+		<div class="detailed-layout-content">
+				<div th:text="${trainer?.firstName}+' '+${trainer?.lastName}" class="detailed-layout-content-headline"/>
+			<div class="detailed-layout-content-card">
+					<div class="detailed-layout-content-card-left">
+					
+						<div class="detailed-layout-content-img" >
+								<img th:src="@{'/'+${trainer?.imageUrl}}" >
+						</div>	
+						
+						<div class="detailed-layout-content-texts">
+							<div  th:text="#{sportag}"/>
+
+							<div th:if="${trainer.trainingClass} == null" th:text="#{nincs-sportag}"/>
+							<a th:unless="${trainer.trainingClass} == null"  th:href="@{/weinbergym/trainingClassDetails(id=${trainer?.trainingClass?.id})}">
+							<div th:text="${trainer?.trainingClass?.name}"></div>
+							</a>
+						</div>
+					</div>
+					<div class="detailed-layout-content-card-rigth-trainer">
+												
+							<div class="detailed-layout-content-card-rigth-description" th:text="${trainer?.description}"></div>
+						 	<form sec:authorize="isAuthenticated()" th:action="@{'/weinbergym/emailSender/'+${trainerId}}" 
+									 th:object="${email}" method="POST" class="form-horizontal" id="usrform">
+								<div th:text="#{trainer-contact-message}" class="detailed-layout-content-card-rigth-description"/>
+							  	<textarea rows="4" cols="50"  th:field="*{message}" name="comment" form="usrform" placeholder="Email szövege."></textarea>
+							  	<br>
+				  				<input class="detailed-layout-content-card-rigth-button" type="submit" th:value="#{kapcsolat-felvetel}" >
+							</form>
+
+					</div>		
+			 </div>
+		  </div>
+				
+		</div>	
+
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

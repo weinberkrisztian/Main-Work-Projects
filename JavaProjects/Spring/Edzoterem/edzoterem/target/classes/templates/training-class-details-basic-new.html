@@ -1,0 +1,58 @@
+<html >
+
+<head>
+
+<title>Training Class Details</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/detailed-layout.css}" >
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content detailed-layout" >
+		<div class="detailed-layout-content">
+						<div th:text="${trainingClass?.name}" class="detailed-layout-content-headline"></div>
+			<div class="detailed-layout-content-card">
+					<div class="detailed-layout-content-card-left">
+					
+						<div class="detailed-layout-content-img" >
+								<img th:src="@{'/'+${trainingClass?.imageUrl}}" >
+						</div>	
+						
+						<div class="detailed-layout-content-texts">
+							<div  th:text="#{vezeto-edzo}">
+							</div>
+							<div th:if="${trainingClass.trainer} == null" th:text="#{nincs-edzo}">
+							</div>
+								<a th:unless="${trainingClass.trainer} == null"  th:href="@{/weinbergym/trainerDetails(id=${trainingClass.trainer?.id})}">
+									<div th:text="${trainingClass.trainer?.firstName} +' '+ ${trainingClass.trainer?.lastName}"></div>
+								</a>
+						</div>	
+					</div>	
+					<div class="detailed-layout-content-card-rigth">
+							<div class="detailed-layout-content-card-rigth-description" th:text="${trainingClass?.description}"></div>
+												
+					</div>
+			</div>			
+
+		</div>			
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+	
+</div>
+	
+
+</body>
+
+</html>

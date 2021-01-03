@@ -1,0 +1,69 @@
+<html >
+
+<head>
+
+<title>User Role</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/welcome.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/form-layout.css}" >
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content form-layout" >
+		<div class="main-content-welcome">
+			<div th:text="#{user-role-headline}"class="main-content-welcome-message">
+			Fő szöveg a messeage.propertiesből
+			</div>
+			<div class="main-content-message">
+		<form th:action="@{'/weinbergym/userRoleAddProcessing/'+ ${userId}}" th:object="${roleAdd}" method="POST">
+	  
+		<!-- 		Add Role -->
+		<div sec:authorize="hasAnyRole('ADMIN')">
+			<label th:text="#{user-role-add}"></label> <input class="action-button margin-left-25" type="submit" th:value="#{user-role-add-button}" ><br>
+			<select class="custom-select" name="id" id="id">
+			  <option th:each="tempMissingRole : ${missingUserRoleList}" th:value="${tempMissingRole.id}" th:text="${tempMissingRole.name}"></option>
+			</select>
+		
+		</div>
+		
+	
+
+	</form> 
+			<form th:action="@{'/weinbergym/userRoleRemoveProcessing/'+ ${userId}}" th:object="${roleRemove}" method="POST">
+	  
+		<!-- 		Add Role -->
+		<div sec:authorize="hasAnyRole('ADMIN')">
+			<label th:text="#{user-role-remove}"></label><input class="action-button margin-left-25" type="submit" th:value="#{user-role-remove-button}"><br>
+			<select class="custom-select" name="id" id="id">
+			  <option th:each="tempUserRoleList : ${userRoleList}" th:value="${tempUserRoleList.id}" th:text="${tempUserRoleList.name}"></option>
+			</select>
+		
+		</div>
+		
+	
+
+	</form> 
+	
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>
