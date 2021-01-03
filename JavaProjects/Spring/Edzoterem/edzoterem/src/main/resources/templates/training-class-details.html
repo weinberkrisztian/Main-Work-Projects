@@ -1,0 +1,161 @@
+<html >
+
+<head>
+
+<title>Training Class Details</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/detailed-layout.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/schedule.css}" >
+
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content detailed-layout" >
+		<div class="detailed-layout-content">
+			<div th:text="${appointment.trainingClass.name}"class="detailed-layout-content-headline"></div>
+
+			<div class="detailed-layout-content-card" >
+				<div class="detailed-layout-content-card-left">
+					<div class="detailed-layout-content-img" >
+						<img th:src="@{'/'+${appointment.trainingClass.imageUrl}}" >
+					</div>			
+					<div class="detailed-layout-content-texts">
+							<div>
+								<div  th:text="#{vezeto-edzo}"/>
+								<div th:if="${appointment.trainingClass.trainer} == null" th:text="#{nincs-edzo}"/>
+								<a th:unless="${appointment.trainingClass.trainer} == null"  th:href="@{/weinbergym/trainerDetails(id=${appointment.trainingClass.trainer?.id})}">
+									<div th:text="${appointment.trainingClass.trainer?.firstName} +' '+ ${appointment.trainingClass.trainer?.lastName}"/>
+								</a>
+							</div>
+					</div>
+					
+
+					
+					
+					
+					
+					
+				</div>
+				
+				
+					<div th:if="${appointment.trainingClass.trainer} != null" class="detailed-layout-content-card-rigth">
+					
+					<form th:action="@{/weinbergym/addUser(appointmentId=${appointment.id})}" th:object="${user}" method="POST">
+					<div sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">
+						<input class="action-button" type="submit" th:value="#{add-user}">
+						<select th:field="*{id}">
+			  				<option th:each="tempUser : ${userList}" th:value="${tempUser.id}" th:text="${tempUser.firstName}+' '+${tempUser.lastName}+' '+${tempUser.userName}"></option>
+						</select>
+					</div>	
+					</form>
+
+					<div sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" th:if="(${appointment.user.isEmpty()})" class="detailed-layout-content-card-rigth-description" th:text="#{nincsfoglalas}"></div>	
+					<div th:unless="(${appointment.user.isEmpty()})">
+					<div sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')" class="detailed-layout-content-table-div my-table">
+						<table>
+							<tr>
+								<th th:text="#{felhasznalok}"></th>
+								<th th:text="#{teljesnev}"></th>
+								<th th:text="#{gender}"></th>
+								<th th:text="#{berlet}"></th>
+								<th th:text="#{check-in}"></th>
+								<th th:text="#{modositas}"></th>
+							</tr>
+							<tr th:each="tempUser : ${appointment.user}">
+								<td th:text="${tempUser.userName}"></td>
+								<td ><a th:href="@{/weinbergym/chosenUserDetails(chosenUserId=${tempUser.id})}" th:text="${tempUser.firstName}+' '+${tempUser.lastName}"></a></td>
+							    <td th:if="(${tempUser.gender == 0})" ><div th:text="#{ferfi}"></div></td>		
+							    <td th:unless="(${tempUser.gender == 0})" ><div th:text="#{no}"></div></td>							    
+<!-- 							    <td th:classappend="((${tempUser.ticket.id}==1) OR (${tempUser.weeklyCheckIn} == ${tempUser.ticket.checkingLimit})) ? red-div-ticket : green-div-ticket" class="dropdown-ticket" > -->
+								<td>
+							    	<div th:text="${tempUser.ticket.type}"></div>
+										<div th:text="${tempUser.weeklyCheckIn}+'/'+${tempUser.ticket.checkingLimit}"></a> 
+							    </td>	
+							    <td th:if="(${tempUser.checkedIn ==0})" class="red-div dropdown-checkin">
+									<div id="checking-middle">
+									    <a th:href="@{/weinbergym/chosenClassUserCheckInNOut(userId=${tempUser.id}, appointmentId= ${appointment.id})}">
+									    	<div >
+											</div>
+										</a>
+									</div>
+								    		<div class="dropdown-content-checkin">
+												<a th:text="${tempUser.boxNumber}"></a> 
+											</div>
+								</td>	
+							    <td th:unless="(${tempUser.checkedIn ==0})" class="green-div">
+							    	<div id="checking-middle">
+									    <a th:href="@{/weinbergym/chosenClassUserCheckInNOut(userId=${tempUser.id}, appointmentId= ${appointment.id})}">
+									    	<div ></div>
+									    </a>
+								    </div>
+							    </td>		
+							    <td><a th:text="#{lemondas}" th:href="@{/weinbergym/unbookingAdmin(id=${appointment.id},uName=${tempUser.userName})}"></a></td>					
+
+								
+							
+							</tr>
+						</table>
+					</div>
+					</div>
+					
+					<div sec:authorize="isAuthenticated()">
+						<div th:if="${appointment}">
+												
+								<div class="detailed-layout-content-card-rigth-description" th:text="#{valasztott-idopont}+' '+${appointment.day}+' '+${appointment.timeFrom}+' '+${appointment.timeTo}" >			
+								</div>
+								
+							<div th:if="${alreadyBooked}"  >
+								<div  th:text="${alreadyBooked}" class="main-content-classIsFull" ></div>
+									<a class="detailed-layout-content-card-rigth-button" th:href="@{/weinbergym/unbooking(id=${appointment.id})}">
+										<div  th:text="#{lemondas}"></div>
+									</a>
+							</div>
+							
+							<div th:unless="${alreadyBooked}" >	
+								<div th:if="${theCourseIsFull}" th:text="${theCourseIsFull}" class="main-content-classIsFull"></div>
+
+									<div th:unless="${theCourseIsFull}" >	
+										<a class="detailed-layout-content-card-rigth-button" th:href="@{/weinbergym/booking(id=${appointment.id})}">
+											<div  th:text="#{idopontfogalalas}"></div>
+										</a>
+									</div>
+							</div>
+						</div>
+							<div th:unless="${appointment}" >	
+										<a class="detailed-layout-content-card-rigth-button" th:href="@{/weinbergym/schedule}"><div  th:text="#{foglaljonidopontot}"></div></a>
+							</div>
+					</div>
+					<div sec:authorize="isAnonymous()"  class="detailed-layout-content-card-rigth-description" th:text="#{bejelentkezes-szukseges}"></div>					
+					
+					<div  class="detailed-layout-content-card-rigth-description" th:text="${appointment.trainingClass.description}"></div>
+						
+						
+						
+				</div>	
+				<div th:unless="${appointment.trainingClass.trainer} != null" class="detailed-layout-content-card-rigth" style="font-size: 30px; font-weight: bold;">	
+				Jelenleg nincs edző!
+				</div>
+					
+					
+					
+				</div>			
+			  </div>
+		 	</div>	
+		<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>	 	
+
+</body>
+
+</html>

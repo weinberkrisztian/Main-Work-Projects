@@ -1,0 +1,130 @@
+<html >
+
+<head>
+
+<title>Schedule</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/schedule.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content main-content-center" >
+		<div class="main-content-welcome">
+		<table class="my-table">
+		  <tr>
+		  	<th>
+		    <th th:text="#{monday}"></th>
+		    <th th:text="#{thuesday}"></th>
+		    <th th:text="#{wednesday}"></th>
+		    <th th:text="#{thursday}"></th>
+		    <th th:text="#{friday}"></th>
+		    <th th:text="#{sunday}"></th>
+		    <th th:text="#{saturday}"></th>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-8-9}"></td>
+		    
+		    <td th:each="tempEight : ${eight}" th:classappend="((${tempEight.currentPerson}) == (${tempEight.maxPerson})) ? isFull : isOk">	    
+		    		<a  th:text="${tempEight?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempEight?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-9-10}"></td>
+		    <td th:each="tempNine : ${nine}" th:classappend="(${tempNine.currentPerson} == ${tempNine.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempNine?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempNine?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-10-11}"></td>
+		    <td th:each="tempTen : ${ten}" th:classappend="(${tempTen.currentPerson} == ${tempTen.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempTen?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempTen?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-11-12}"></td>
+		    <td th:each="tempEleven : ${eleven}" th:classappend="(${tempEleven.currentPerson} == ${tempEleven.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempEleven?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempEleven?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-17-18}"></td>
+		    <td th:each="tempSeventeen : ${seventeen}" th:classappend="(${tempSeventeen.currentPerson} == ${tempSeventeen.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempSeventeen?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempSeventeen?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-18-19}"></td>
+		    <td th:each="tempEightteen : ${eightteen}" th:classappend="(${tempEightteen.currentPerson} == ${tempEightteen.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempEightteen?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempEightteen?.id})}"></a>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text="#{schedule-table-19-20}"></td>
+		    <td th:each="tempNineteen : ${nineteen}" th:classappend="(${tempNineteen.currentPerson} == ${tempNineteen.maxPerson}) ? isFull : isOk">	    
+		    		<a  th:text="${tempNineteen?.trainingClass?.name}" th:href="@{/weinbergym/chosenClass(id=${tempNineteen?.id})}"></a>
+		    </td>
+		  </tr>
+
+
+		
+		
+		</table>
+			<form th:action="@{/weinbergym/addAppointment}" th:object="${newAppointment}" method="POST">
+				<div sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">
+					<input class="action-button" type="submit" th:value="#{add-appointment}">
+						<select class="custom-select" th:field="*{id}">
+			  				<option th:each="tempAppointment : ${appointmentList}" th:value="${tempAppointment.id}" th:text="${tempAppointment.dayTxt}+' '+${tempAppointment.timeFrom}+' '+${tempAppointment.timeTo}"></option>
+						</select>
+						<label>Edzés fajta:</label>	
+						<select class="custom-select" th:field="*{trainingClass.id}">
+			  				<option th:each="tempTrainingClass : ${trainingClassList}" th:value="${tempTrainingClass.id}" th:text="${tempTrainingClass.name}"></option>
+						</select>
+						<label>Jelentkező limit:</label>	
+						<select class="custom-select" th:field="*{maxPerson}">
+			  				<option  th:value="3" th:text="3"></option>
+			  				<option  th:value="5" th:text="5"></option>
+			  				<option  th:value="10" th:text="10"></option>
+			  				<option  th:value="15" th:text="15"></option>
+			  				<option  th:value="20" th:text="20"></option>			  							  							  							  				
+						</select>								
+
+<!-- 						<select class="custom-select" th:field="*{maxPerson}"> -->
+<!-- 			  				<option>3</option> -->
+<!-- 			  				<option>5</option> -->
+<!-- 			  				<option>10</option> -->
+<!-- 			  				<option>15</option> -->
+<!-- 			  				<option>20</option> -->
+<!-- 						</select>						 -->
+				</div>	
+			</form>		
+			
+			<form th:unless="(${appointmentWithTrainingClassList.isEmpty()})" th:action="@{/weinbergym/removeAppointment}" th:object="${removedAppointment}" method="POST">
+				<div sec:authorize="hasAnyRole('EMPLOYEE','MANAGER','ADMIN')">
+					<input class="action-button" type="submit" th:value="#{remove-appointment}">
+						<select class="custom-select" th:field="*{id}">
+			  				<option th:each="tempAppointment : ${appointmentWithTrainingClassList}" th:value="${tempAppointment.id}" th:text="${tempAppointment.dayTxt}+' '+${tempAppointment.timeFrom}+' '+${tempAppointment.timeTo}"></option>
+						</select>							
+				</div>	
+			</form>					
+		</div>
+		</div>
+
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>
