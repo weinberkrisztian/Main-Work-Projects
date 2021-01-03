@@ -1,0 +1,50 @@
+<html >
+
+<head>
+
+<title>WeinberGym</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/welcome.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/detailed-layout.css}" >
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content main-content-center detailed-layout welcome-background"  >
+		<div class="main-content-welcome">
+			<div th:text="#{welcome-message}"class="main-content-welcome-message welcome-header">
+			</div>
+			<br>
+			<div class="main-content-message">
+				<br>
+				<div th:text="#{message-first-header}" class="text-align:center;"/>
+				<div th:text="#{message-first}"/>
+				<br>
+				<div th:text="#{message-second-header}" class="text-align:center;"/>
+				<div th:text="#{message-second}"/>
+				<br>
+				<div th:text="#{message-third}"  class="text-align:center;"/>
+				<br>
+				<div th:text="#{message-fourth}"  class="text-align:center;"/>
+				<div th:text="#{message-fifth}"  class="text-align:center;"/>
+
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

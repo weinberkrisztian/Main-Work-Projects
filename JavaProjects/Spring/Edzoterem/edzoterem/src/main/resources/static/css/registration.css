@@ -1,0 +1,12 @@
+body{
+	background-color:#404040;
+}
+
+.heading-color{
+	color: white !important;
+	background-color: blue !important;
+}
+
+.panel-body-color{
+	background-color:black;
+}

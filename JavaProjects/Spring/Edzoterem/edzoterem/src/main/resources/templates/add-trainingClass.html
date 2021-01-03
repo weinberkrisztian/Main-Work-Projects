@@ -1,0 +1,98 @@
+<html >
+
+<head>
+
+<title>Add Training Class</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/welcome.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/form-layout.css}" >
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content form-layout" >
+		<div class="main-content-welcome">
+			<div th:text="#{trainingClass-add-headline}"class="main-content-welcome-message">
+			</div>
+			<div class="main-content-message">
+		<form th:action="@{/weinbergym/trainingClassAddingDetailsProcessing}" 
+		th:object="${trainingClass}" method="POST">
+
+		<!-- Place for messages: error, alert etc ... -->
+		<div class="form-group">
+			<div class="col-xs-15">
+				<div>
+				<input class="action-button" type="submit" th:value="#{trainingClass-add-button}">
+					<!-- Check for existing name error -->
+					<div th:if="${nameError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+						<span th:text="${nameError}"></span>
+					</div>
+																											
+				</div>
+			</div>
+		</div>			  
+	<!-- Name -->
+		<div>
+		 	<label th:text="#{trainingClass-add-name}" for="name"></label><br>
+			<input type="text" th:field="*{name}" th:value="*{name}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('name')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('name')}" th:text="#{trainingClass-add-name} + ${err}" />
+			</ul>						
+		</div>		
+	<!-- imageUrl -->
+		<div>
+		 	<label th:text="#{trainingClass-add-imageUrl}" for="imageUrl"></label><br>
+			<input type="file" th:field="*{imageUrl}" th:value="*{imageUrl}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('imageUrl')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('imageUrl')}" th:text="#{trainingClass-add-imageUrl} + ${err}" />
+			</ul>						
+		</div>		
+	<!-- description -->
+		<div>
+		 	<label th:text="#{trainingClass-add-description}" for="description"></label><br>
+			<textarea th:placeholder="#{leiras}"type="text" th:field="*{description}" th:value="*{description}" class="form-control" />
+		</div>
+		<div th:if="${#fields.hasErrors('description')}"
+		class="text-danger">
+			<ul>
+				<li th:each="err : ${#fields.errors('description')}" th:text="#{trainingClass-add-description} + ${err}" />
+			</ul>						
+		</div>	
+		<div>
+			<label th:text="#{trainingClass-add-trainer}" for="trainerId"></label><br>
+			<select class="custom-select" th:field="*{trainerId}">
+				<option th:unless="${trainingClass.trainer} == null" th:text="${trainingClass?.trainer?.firstName}+' '+ ${trainingClass?.trainer?.lastName}" th:value="${trainingClass?.trainer?.id}"  ></option>
+				<option th:value=null th:text="#{nincs-edzo}"/>
+			  	<option th:each="tempTrainer : ${trainerList}" th:value="${tempTrainer.id}" th:text="${tempTrainer.firstName}+' '+ ${tempTrainer.lastName}" ></option>
+			</select>	
+		</div>			  
+		</form> 
+	
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>

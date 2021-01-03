@@ -1,0 +1,99 @@
+<html >
+
+<head>
+
+<title>User Search</title>
+<link rel="icon"  type="image/jpg" href="/logo.jpg">
+<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/schedule.css}" >
+<link type="text/css" rel="stylesheet" th:href="@{/css/detailed-layout.css}" >
+
+
+<meta charset="UTF-8">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+	<div th:insert="fragments/header:: header" class="header-content"></div>
+	
+	
+	
+	<div class="main-content main-content-center" >
+		<div class="main-content-welcome">
+			<div th:text="#{user-details-headline-search}"class="main-content-welcome-message">
+			Fő szöveg a messeage.propertiesből
+			</div>
+			<div class="main-content-message">
+				<div class="form-group">
+					<div class="col-xs-15">	
+						<form th:action="@{/weinbergym/findUserPost}" method="POST" th:object="${search}">
+
+						<!-- Name -->
+							<div>
+								<input type="text" th:field="*{name}" th:value="*{name}" class="form-control"  /><br>
+								<input type="submit"  class="action-button" th:value="#{search}">
+							</div>							
+					<div class="training-class-details-table-div">
+						<table class="my-table">
+							<tr>
+								<th th:text="#{felhasznalok}"></th>
+								<th th:text="#{teljesnev}"></th>
+								<th th:text="#{gender}"></th>
+								<th th:text="#{berlet}"></th>
+								<th th:text="#{check-in}"></th>
+								<th sec:authorize="hasAnyRole('ADMIN')" th:text="#{jogosultsag}"></th>
+								<th sec:authorize="hasAnyRole('ADMIN')" th:text="#{felhasznalo-torles}"></th>
+							</tr>
+							<tr th:each="tempUser : ${userList}">
+								<td th:text="${tempUser.userName}"></td>
+								<td ><a th:href="@{/weinbergym/chosenUserDetails(chosenUserId=${tempUser.id})}" th:text="${tempUser.firstName}+' '+${tempUser.lastName}"></a></td>
+							    <td th:if="(${tempUser.gender == 0})" ><div th:text="#{ferfi}"></div></td>		
+							    <td th:unless="(${tempUser.gender == 0})" ><div th:text="#{no}"></div></td>
+							    <td>
+							    	<div th:text="${tempUser.ticket.type}" ></div>
+									<div th:text="${tempUser.weeklyCheckIn}+'/'+${tempUser.ticket.checkingLimit}"></div> 
+
+							    
+							    </td>	
+							    <td th:if="(${tempUser.checkedIn ==0})" class="red-div dropdown-checkin">
+							    	<div id="checking-middle">
+									    <a th:href="@{/weinbergym/findUserPostCheckInNOut(userId=${tempUser.id})}">
+									    	<div>
+											</div>
+										</a>
+									</div>
+								    		<div class="dropdown-content-checkin">
+												<a th:text="${tempUser.boxNumber}"></a> 
+											</div>
+								</td>		
+							    <td th:unless="(${tempUser.checkedIn ==0})" class="green-div">
+							    	<div id="checking-middle">
+									    <a th:href="@{/weinbergym/findUserPostCheckInNOut(userId=${tempUser.id})}">
+									    <div ></div>
+									    </a>
+							    	</div>
+							    </td>							
+								<td sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/weinbergym/userRole(userId=${tempUser.id})}"><div th:text="#{jogosultsag-modify}"></div></a></td>
+								<td sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/weinbergym/userDelete(userId=${tempUser.id})}"><div th:text="#{felhasznalo-torles-button}"></div></a></td>
+
+							
+							
+							</tr>
+						</table>
+					</div>  
+						</form> 
+					</div>			
+				</div>	
+			</div>			
+		</div>
+	</div>
+	
+	<div th:insert="fragments/footer :: footer" class="information-content"></div>
+</div>
+
+</body>
+
+</html>
