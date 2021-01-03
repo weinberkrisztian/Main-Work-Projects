@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+<!--         <div *ngIf="error" class="alert alert-danger" style="text-align: center;">
+            <p>{{error}}</p>        
+        </div> -->
+        <app-alert [message]="error" *ngIf="error" (closeEvent)="handleAlert()"></app-alert>
+        <div *ngIf="isLoading" style="text-align: center;">
+            <app-loading-spinner></app-loading-spinner>        
+        </div>
+        <form [formGroup]="authFormGroup" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+            <div class="form-group">
+                <label for="email">E-Mail</label>
+                <input type="email" class="form-control" id="email" formControlName="email">
+            </div>
+            <span class="help-block" style="color: red;" *ngIf="!authFormGroup.get('email').valid && authFormGroup.get('email').touched">
+                <span class="help-block" style="color: red;" *ngIf="authFormGroup.get('email').errors['required']">The Email is required!</span>
+                <span class="help-block" style="color: red;" *ngIf="authFormGroup.get('email').errors['email']">The Email must have a valid email format!</span>
+            </span>    
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+            </div> 
+            <span class="help-block" style="color: red;" *ngIf="!authFormGroup.get('password').valid && authFormGroup.get('password').touched">
+                <span class="help-block" style="color: red;" *ngIf="authFormGroup.get('password').errors['required']">The Password is required!</span>
+                <span class="help-block" style="color: red;" *ngIf="authFormGroup.get('password').errors['minlength']">The Password must contain min. 6 character!</span>
+            </span>  
+            <div>
+                <button class="btn btn-primary" type="submit" [disabled]="!authFormGroup.valid">{{ isLoginMode ? 'Login' : 'Sign Up'}}</button>          
+                <button class="btn btn-primary" type="button" (click)="onSwitchMode()">Switch to {{ !isLoginMode ? 'Login' : 'Sign Up'}}</button>            
+            </div>
+        </form>
+    </div>
+</div>

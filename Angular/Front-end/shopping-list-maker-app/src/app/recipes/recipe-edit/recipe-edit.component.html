@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+            <div class="row">    
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <button [disabled]="!recipeForm.valid" type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+                    </div>    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name"  class="form-control" formControlName="name">
+                    </div>
+                </div>
+            </div> 
+            <span class="help-block" style="color: red;" *ngIf="!recipeForm.get('name').valid && recipeForm.get('name').touched">
+                <span class="help-block" style="color: red;" *ngIf="recipeForm.get('name').errors['required']">The Name is required</span>
+            </span>       
+            <div class="row">    
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" id="description"  class="form-control" formControlName="description" rows="6"></textarea>
+                    </div>
+                </div>    
+            </div>
+            <span class="help-block" style="color: red;" *ngIf="!recipeForm.get('description').valid && recipeForm.get('description').touched">
+                <span class="help-block" style="color: red;" *ngIf="recipeForm.get('description').errors['required']">The Description is required</span>
+            </span>  
+            <div class="row">    
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="imagePath">Image URL</label>
+                        <input type="text" id="imagePath"  class="form-control" formControlName="imagePath" >
+                    </div>
+                </div>    
+            </div> 
+            <span class="help-block" style="color: red;" *ngIf="!recipeForm.get('imagePath').valid && recipeForm.get('imagePath').touched">
+                <span class="help-block" style="color: red;" *ngIf="recipeForm.get('imagePath').errors['required']">The Image URL is required</span>
+            </span>       
+            <div class="row">    
+                <div class="col-xs-12" formArrayName="ingredients">
+                    <label >Ingredients</label>
+                    <div class="row" style="margin-top: 10px;" [formGroupName]="i" *ngFor="let ingredientCtrl of getFormArrayControls(); let i = index">
+                        <div class="col-xs-8"  >
+                            <label >Name</label>
+                            <input type="text" class="form-control" formControlName="name" > 
+                            <span class="help-block" style="color: red;" *ngIf="!recipeForm.get(getFormGroupName(i,'name')).valid && recipeForm.get(getFormGroupName(i,'name')).touched">
+                                <span class="help-block" style="color: red;" *ngIf="recipeForm.get(getFormGroupName(i,'name')).errors['required']">The Name is required</span>
+                            </span>
+                        </div>
+                        <div class="col-xs-2">
+                            <label >Amount</label>
+                            <input type="number" class="form-control" formControlName="amount">
+                            <span class="help-block" style="color: red;" *ngIf="!recipeForm.get(getFormGroupName(i,'amount')).valid && recipeForm.get(getFormGroupName(i,'amount')).touched">
+                                <span class="help-block" style="color: red;" *ngIf="recipeForm.get(getFormGroupName(i,'amount')).errors['required']">The Name is required</span>
+                            </span>
+                        </div>
+                        <div class="col-xs-2" >
+                            <button class="btn btn-danger"  type="button"  (click)="onDeleteIngredient(i)">X</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            <hr>
+            <div class="row">    
+                <div class="col-xs-12" >
+                    <button class="btn btn-success" type="button" (click)="onAddIngredient()">Add Ingredient</button>
+                </div>    
+            </div>
+        </form>
+        <div class="row">    
+            <div class="col-xs-12">
+                <label >Preview Image</label>
+                    <img [src]="recipeForm.get('imagePath').value" alt="Image Path is not valid!" class="img-responsive">
+            </div>    
+        </div>                              
+    </div>
+</div>
